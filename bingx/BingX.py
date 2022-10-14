@@ -49,8 +49,3 @@ def get_latest_trade_price(pair):
     full_url = "https://api-swap-rest.bingbon.pro/api/v1/market/getLatestPrice"
     response = requests.get(full_url, "symbol=" + pair)
     return response.json()["data"]["tradePrice"]
-
-
-print(get_server_time())
-print("response: ", get_balance("USDT"))
-print("Trade Price is: ", get_latest_trade_price("BTC-USDT"))
