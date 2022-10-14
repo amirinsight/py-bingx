@@ -1,5 +1,5 @@
 ================
-This is py-bingX
+This is py-bingx
 ================
 
 py-bingX is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_.
