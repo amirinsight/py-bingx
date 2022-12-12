@@ -2,17 +2,13 @@
 This is py-bingx
 ================
 
-py-bingX is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_.
+py-bingx is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_.
 I am not affiliated with BingX.
-
-
-Features
---------
 
 
 TODO
 ----
-Make commits.
+Add documentation.
 
 
 Usage
@@ -25,8 +21,17 @@ and make sure you copy you Secret Key before leaving the page.
 
 .. code:: bash
 
-    pip install py-bingX
+    pip install py-bingx
 
 .. code:: python
 
-    import py-bingx
+    from bingx.api import BingxAPI
+
+    ...
+
+    API_KEY = '<api_public_key>'
+    SECRET_KEY = '<api_secret_key>'
+
+    # It is faster and more efficient to use local timestamps. If you are getting an error try using "server" timestamp.
+    bingx = BingxAPI(API_KEY, SECRET_KEY, timestamp="local")
+    bingx.place_market_order("ALGO-USDT", "Short", 5, "Open")
