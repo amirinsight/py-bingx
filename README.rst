@@ -8,7 +8,7 @@ I am not affiliated with BingX.
 
 TODO
 ----
-Add documentation.
+Add Response exception handling.
 
 
 Usage
