@@ -4,7 +4,6 @@ import json
 import urllib.parse
 import urllib.request
 from utilities import *
-from secret import *
 
 
 class BingxAPI(object):
@@ -50,6 +49,13 @@ class BingxAPI(object):
         url = self.ROOT_URL + path
         response = self._post(url, "")
         return str(response["data"]["currentTime"])
+
+    @staticmethod
+    def __handle_response(response):
+        if response["code"] != 0:
+            return response["msg"]
+        else:
+            return response["data"]
 
     def get_timestamp(self):
         if self.timestamp == "local":
