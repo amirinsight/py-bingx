@@ -11,7 +11,7 @@ setup(
     description='BingX REST API Python implementation',
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    author_email='amiryzare@gmail.com',
+    author_email='',
     packages=['bingx'],
     url='https://github.com/amirinsight/py-bingx',
     keywords='bingx api cryptocurrency trading btc eth rest exchange',
