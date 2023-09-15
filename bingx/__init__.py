@@ -1,6 +1,3 @@
-# An unofficial Python wrapper for the BingX API.
-import os
-import sys
+# An unofficial Python wrapper for the BingX exchange API
 
-# Needed for local modules
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+from bingx.api import BingxAPI
