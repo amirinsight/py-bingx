@@ -3,7 +3,8 @@ import base64
 import json
 import urllib.parse
 import urllib.request
-from utilities import *
+
+from .utilities import get_system_time
 
 
 class BingxAPI(object):
