@@ -34,4 +34,4 @@ and make sure you copy you Secret Key before leaving the page.
 
     # It is faster and more efficient to use local timestamps. If you are getting an error try using "server" timestamp.
     bingx = BingxAPI(API_KEY, SECRET_KEY, timestamp="local")
-    bingx.place_market_order("ALGO-USDT", "Short", 5, "Open")
+    bingx.open_market_order('FLOKI-USDT', 'LONG', 121220, tp="0.00001800", sl="0.00001700")
