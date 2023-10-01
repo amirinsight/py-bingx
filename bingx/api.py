@@ -148,13 +148,22 @@ class BingxAPI(object):
         return response["data"]
 
     def get_kline_data(self, pair, interval, start_timestamp="NULL", end_timestamp="NULL", limit="NULL"):
-        # Gives exactly one kline if start and end times are not given
-        # Times should be epoch
+        """
+        Gives 500 candles if start and end times are not given.
+        Timestamps are in epoch time.
+        :param pair:
+        :param interval:
+        :param start_timestamp:
+        :param end_timestamp:
+        :param limit: Set a candle limit. Default is 500 and Max is 1440,
+        :return:
+        """
+
         path = "/openApi/swap/v3/quote/klines"
         url = self.ROOT_URL + path
-        valid_intervals = ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1M"]
-        if str(interval) not in valid_intervals:
-            raise ValueError("[!] INVALID INTERVAL VALUE. Valid Intervals are: ", str(valid_intervals))
+        VALID_INTERVALS = ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1M"]
+        if str(interval) not in VALID_INTERVALS:
+            raise ValueError("[!] INVALID INTERVAL VALUE. Valid Intervals are: ", str(VALID_INTERVALS))
 
         params = self.__generate_params(symbol=pair, interval=interval, startTime=start_timestamp,
                                         endTime=end_timestamp, limit=limit)
