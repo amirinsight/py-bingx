@@ -16,6 +16,7 @@ I am not affiliated with BingX.
 TODO
 ----
 This package is functional but the following list should be achieved pre release:
+
 - Add Response exception handling.
 - Implement the remaining less important endpoints.
 - Leverage async/await (Use async methods and aiohttp to make requests asynchronously rather than blocking.)
