@@ -12,19 +12,6 @@ Updated 1st Oct 2023
 py-bingx is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_.
 I am not affiliated with BingX.
 
-
-TODO
-----
-This package is functional but the following list should be achieved pre release:
-
-- Add Response exception handling.
-- Implement the remaining less important endpoints.
-- Leverage async/await (Use async methods and aiohttp to make requests asynchronously rather than blocking.)
-- Add proper logging. (Add a structured logger like loguru to log requests, errors etc.)
-- Write tests. (Add unit and integration tests using pytest)
-- Refactor code to be more pythonic and modular.
-
-
 Usage
 -----
 
@@ -98,3 +85,13 @@ Trading Functions
 - ``cancel_all_orders_of_symbol()`` - Cancels all pending orders for a trading pair
 - ``cancel_batch_orders()`` - Cancels multiple pending orders
 
+TODO
+----
+This package is functional but the following list should be achieved pre release:
+
+- Add Response exception handling.
+- Implement the remaining less important endpoints.
+- Leverage async/await (Use async methods and aiohttp to make requests asynchronously rather than blocking.)
+- Add proper logging. (Add a structured logger like loguru to log requests, errors etc.)
+- Write tests. (Add unit and integration tests using pytest)
+- Refactor code to be more pythonic and modular.
