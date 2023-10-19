@@ -1,5 +1,5 @@
 ================
-This is py-bingx
+This is py-bingx 
 ================
 Updated 1st Oct 2023 ⏰
 
@@ -9,8 +9,12 @@ Updated 1st Oct 2023 ⏰
 .. image:: https://img.shields.io/pypi/l/py-bingx.svg 
     :target: https://pypi.python.org/pypi/py-bingx
 
-py-bingx is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_. 
-I am not affiliated with BingX. 
+.. image:: https://img.shields.io/github/stars/amirinsight/py-bingx.svg?style=social&label=Stars 
+   :target: https://github.com/amirinsight/py-bingx
+   :alt: Star This Project
+
+
+py-bingx is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_. You can use this package to create trading bots. Make sure to read my `disclaimer <https://github.com/amirinsight/py-bingx#disclaimer>`_ and consider starring this project.
 
 Usage
 -----
@@ -18,7 +22,7 @@ Usage
 Register an account on `BingX <https://bingx.com/en-us/register>`_. 
 
 `Create an API <https://bingx.com/en-us/account/api>`_
-and make sure you copy you Secret Key before leaving the page. 🗝
+and make sure you copy your Secret Key before leaving the page. 🗝
 
 .. code:: bash
 
@@ -102,6 +106,6 @@ Disclaimer 📜
 
 This open source code is provided "as is" without warranty of any kind. The author makes no representations or warranties about the accuracy, completeness, or suitability of this code for any purpose. Use of this code is at your own risk.
 
-The author is not liable for any damages arising from the use of this code. Cryptocurrency trading involves substantial risk of loss. You should not rely on this code as your sole method of trading. No promises or guarantees are made regarding the performance of any trades executed using this code. Always do your own research and due diligence before executing any trades.
+The author is not affiliated with BingX and is not liable for any damages arising from the use of this code. Cryptocurrency trading involves substantial risk of loss. You should not rely on this code as your sole method of trading. No promises or guarantees are made regarding the performance of any trades executed using this code. Always do your own research and due diligence before executing any trades.
 
 This code is still under developement and may contain bugs and errors. Use at your own discretion.
