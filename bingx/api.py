@@ -14,6 +14,8 @@ class BingxAPI(object):
         self.API_KEY = api_key
         self.SECRET_KEY = secret_key
         self.timestamp = timestamp
+        self.HEADERS = {'User-Agent': 'Mozilla/5.0',
+                        'X-BX-APIKEY': self.API_KEY}
 
     @staticmethod
     def __generate_params(**kwargs):
@@ -41,32 +43,23 @@ class BingxAPI(object):
         return digest.hex()
 
     def _post(self, url, body):
-        HEADERS = {'User-Agent': 'Mozilla/5.0',
-                   'X-BX-APIKEY': self.API_KEY}
-
-        request = urllib.request.Request(url, data=body.encode("utf-8"), headers=HEADERS, method="POST")
+        request = urllib.request.Request(url, data=body.encode("utf-8"), headers=self.HEADERS, method="POST")
         response = urllib.request.urlopen(request).read()
         json_object = json.loads(response.decode('utf8'))
         return json_object
 
     def _delete(self, url, params):
-        HEADERS = {'User-Agent': 'Mozilla/5.0',
-                   'X-BX-APIKEY': self.API_KEY}
-
         if params != "":
             url = url + "?" + params
-        request = urllib.request.Request(url, headers=HEADERS, method="DELETE")
+        request = urllib.request.Request(url, headers=self.HEADERS, method="DELETE")
         response = urllib.request.urlopen(request).read()
         json_object = json.loads(response.decode('utf8'))
         return json_object
 
     def _get(self, url, params):
-        HEADERS = {'User-Agent': 'Mozilla/5.0',
-                   'X-BX-APIKEY': self.API_KEY}
-
         if params != "":
             url = url + "?" + params
-        request = urllib.request.Request(url, headers=HEADERS)
+        request = urllib.request.Request(url, headers=self.HEADERS)
         response = urllib.request.urlopen(request).read()
         json_object = json.loads(response.decode('utf8'))
         return json_object
