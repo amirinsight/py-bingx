@@ -4,7 +4,7 @@ import json
 import urllib.parse
 import urllib.request
 
-from .utilities import get_system_time
+from utilities import get_system_time
 
 
 class BingxAPI(object):
