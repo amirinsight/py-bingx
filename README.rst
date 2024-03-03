@@ -39,8 +39,8 @@ and make sure you copy your Secret Key before leaving the page. 🗝
     SECRET_KEY = '<api_secret_key>'
 
     # It is faster and more efficient to use local timestamps. If you are getting an error try using "server" timestamp.
-    bingx = BingxAPI(API_KEY, SECRET_KEY, timestamp="local")
-    order_data = bingx.open_market_order('FLOKI-USDT', 'LONG', 121220, tp="0.00001800", sl="0.00001700")
+    bingx = BingxAPI(API_KEY, SECRET_KEY,demo=False, timestamp="local") //For use VST demo account set demo to True
+    order_data = bingx.open_market_order('BTC-USDT', 'LONG', 0.01, tp="63277", sl="60658")
 
 Functions 🧰
 ---------
