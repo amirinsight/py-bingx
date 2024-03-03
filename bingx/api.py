@@ -9,11 +9,14 @@ from .utilities import get_system_time
 
 class BingxAPI(object):
     ROOT_URL = "https://open-api.bingx.com"
+    DEMO_URL = "https://open-api-vst.bingx.com"
 
-    def __init__(self, api_key, secret_key, timestamp="local"):
+    def __init__(self, api_key, secret_key,demo=False, timestamp="local"):
         self.API_KEY = api_key
         self.SECRET_KEY = secret_key
         self.timestamp = timestamp
+        if demo:
+            self.ROOT_URL = self.DEMO_URL
         self.HEADERS = {'User-Agent': 'Mozilla/5.0',
                         'X-BX-APIKEY': self.API_KEY}
 
