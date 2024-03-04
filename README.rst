@@ -1,7 +1,8 @@
-================
-This is py-bingx 
-================
-Updated 1st Oct 2023 ⏰
+==================
+This is py-bingx-d
+==================
+
+Updated 4 March 2024 ⏰
 
 .. image:: https://img.shields.io/pypi/v/py-bingx.svg
     :target: https://pypi.python.org/pypi/py-bingx
@@ -14,7 +15,7 @@ Updated 1st Oct 2023 ⏰
    :alt: Star This Project
 
 
-py-bingx is an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_. You can use this package to create trading bots. Make sure to read my `disclaimer <https://github.com/amirinsight/py-bingx#disclaimer>`_ and consider starring this project.
+py-bingx-d is developed (`py-bingx package <https://github.com/amirinsight/py-bingx>`_) an unofficial Python wrapper for the `BingX Perpetual Swap API <https://bingx-api.github.io/docs/swap/introduce.html>`_. You can use this package to create trading bots. Make sure to read my `disclaimer <https://github.com/rikhtehgaran/py-bingx#disclaimer>`_ and consider starring this project.
 
 Usage
 -----
@@ -26,7 +27,7 @@ and make sure you copy your Secret Key before leaving the page. 🗝
 
 .. code:: bash
 
-    pip install py-bingx
+    pip install py-bingx-d
 
 .. code:: python
 
@@ -43,14 +44,14 @@ and make sure you copy your Secret Key before leaving the page. 🗝
     order_data = bingx.open_market_order('BTC-USDT', 'LONG', 0.01, tp="63277", sl="60658")
 
 Functions 🧰
----------
+------------
 
 py-bingx was written with the goal of being user-friendly. Feel free to ask your questions and state any bugs/issues with the code.
 
 You can find the list of py-bingx functions below: 
 
 Market Data Functions 💹
----------------------
+------------------------
 
 - ``get_all_contracts()`` - Gets a list of all contracts/trading pairs available on Bingx 
 - ``get_latest_price(pair)`` - Gets the latest price for a trading pair 💱
@@ -66,14 +67,14 @@ Market Data Functions 💹
 - ``get_current_optimal_price(pair)`` - Gets best bid and offer prices for a trading pair 💰
 
 Account Data Functions  👤
-----------------------
+--------------------------
 
 - ``get_perpetual_balance()`` - Get user account balance info 💳
 - ``get_my_perpetual_swap_positions(pair)`` - Get user open positions for a trading pair 📈
 - ``get_fee_rate()`` - Get fee rate for trading 💸
 
 Trading Functions 📈
------------------
+--------------------
 
 - ``open_market_order()`` - Opens a market order to buy/sell a trading pair 💹
 - ``close_market_order()`` - Closes an open market order ❌
@@ -89,7 +90,7 @@ Trading Functions 📈
 - ``cancel_batch_orders()`` - Cancels multiple pending orders ❌
 
 TODO 📝
----- 
+-------
 
 This package is functional but the following list should be achieved pre release:
 
@@ -102,7 +103,7 @@ This package is functional but the following list should be achieved pre release
 - Add WS support to report order updates.
 
 Disclaimer 📜
-----------
+-------------
 
 This open source code is provided "as is" without warranty of any kind. The author makes no representations or warranties about the accuracy, completeness, or suitability of this code for any purpose. Use of this code is at your own risk.
 
