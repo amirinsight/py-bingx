@@ -9,11 +9,14 @@ from .utilities import get_system_time
 
 class BingxAPI(object):
     ROOT_URL = "https://open-api.bingx.com"
+    DEMO_URL = "https://open-api-vst.bingx.com"
 
-    def __init__(self, api_key, secret_key, timestamp="local"):
+    def __init__(self, api_key, secret_key,demo=False, timestamp="local"):
         self.API_KEY = api_key
         self.SECRET_KEY = secret_key
         self.timestamp = timestamp
+        if demo:
+            self.ROOT_URL = self.DEMO_URL
         self.HEADERS = {'User-Agent': 'Mozilla/5.0',
                         'X-BX-APIKEY': self.API_KEY}
 
@@ -68,7 +71,10 @@ class BingxAPI(object):
         path = "/openApi/swap/v2/server/time"
         url = self.ROOT_URL + path
         response = self._post(url, "")
-        return str(response["data"]["serverTime"])
+        if "data" in response and "serverTime" in response["data"]:
+            return str(response["data"]["serverTime"])
+        else:
+            return {"error":True,"response":response}
 
     @staticmethod
     def __handle_response(response):
@@ -89,56 +95,80 @@ class BingxAPI(object):
         path = "/openApi/swap/v2/quote/contracts"
         url = self.ROOT_URL + path
         response = self._get(url, "")
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_latest_price(self, pair):
         path = "/openApi/swap/v2/quote/price"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]["price"]
+        if "data" in response and "price" in response["data"]:
+            return response["data"]["price"]
+        else:
+            return {"error":True,"response":response}
 
     def get_market_depth(self, pair, limit="NULL"):
         path = "/openApi/swap/v2/quote/depth"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair, limit=limit)
         response = self._get(url, params)
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_latest_trade(self, pair):
         path = "/openApi/swap/v2/quote/trades"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_latest_funding(self, pair):
         path = "/openApi/swap/v2/quote/premiumIndex"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]["lastFundingRate"]
+        if "data" in response and "lastFundingRate" in response["data"]:
+            return response["data"]["lastFundingRate"]
+        else:
+            return {"error":True,"response":response}
 
     def get_index_price(self, pair):
         path = "/openApi/swap/v2/quote/premiumIndex"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]["indexPrice"]
+        if "data" in response and "indexPrice" in response["data"]:
+            return response["data"]["indexPrice"]
+        else:
+            return {"error":True,"response":response}
 
     def get_market_price(self, pair):
         path = "/openApi/swap/v2/quote/premiumIndex"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]["markPrice"]
+        if "data" in response and "markPrice" in response["data"]:
+            return response["data"]["markPrice"]
+        else:
+            return {"error":True,"response":response}
 
     def get_funding_history(self, pair):
         path = "/openApi/swap/v2/quote/fundingRate"
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_kline_data(self, pair, interval, start_timestamp="NULL", end_timestamp="NULL", limit="NULL"):
         """
@@ -161,7 +191,10 @@ class BingxAPI(object):
         params = self.__generate_params(symbol=pair, interval=interval, startTime=start_timestamp,
                                         endTime=end_timestamp, limit=limit)
         response = self._get(url, params)
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_open_positions(self, pair):
         """
@@ -171,7 +204,10 @@ class BingxAPI(object):
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_tiker(self, pair):
         """
@@ -181,7 +217,10 @@ class BingxAPI(object):
         url = self.ROOT_URL + path
         params = self.__generate_params(symbol=pair)
         response = self._get(url, params)
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_current_optimal_price(self, pair):
         """
@@ -215,10 +254,10 @@ class BingxAPI(object):
         parameters = self.__generate_params(currency=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]
-        if not data:
-            return "You have no open positions!"
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_capital_flow(self):
         # To be implemented
@@ -236,7 +275,10 @@ class BingxAPI(object):
         path = "/openApi/swap/v2/user/commissionRate"
         url = self.ROOT_URL + path
         response = self._get(url, "")
-        return response["data"]
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     # Market Orders:
 
@@ -279,7 +321,10 @@ class BingxAPI(object):
                                             timestamp=self.get_timestamp(), recvWindow="10000")
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._post(url, body)
-        return response["data"]["order"]
+        if "data" in response and "order" in response["data"]:
+            return response["data"]["order"]
+        else:
+            return {"error":True,"response":response}
 
     def close_market_order(self, pair, position_side, volume, client_order_id="NULL"):
         """
@@ -353,7 +398,7 @@ class BingxAPI(object):
 
     # Limit Orders:
 
-    def open_limit_order(self, pair, position_side, price, volume, sl="NULL", tp="NULL", client_order_id="NULL"):
+    def open_limit_order(self, pair, position_side, price, volume, sl="NULL", tp="NULL",trade_type="LIMIT",stop_price="NULL",side="NULL",working_type="MARK_PRICE", client_order_id="NULL"):
         """
         APIKEY must have 'perpetual futures trading' permission for this to work.
 
@@ -362,6 +407,10 @@ class BingxAPI(object):
         :param price: Entry price for this position. Can be set to "BBO" to use the best bid and offer.
         :param volume: Amount of trade for this position
         :param client_order_id: Your choosen order id (a unique number between 1 and 40)
+        :param trade_type: LIMIT, MARKET, TRIGGER_LIMIT, TRIGGER_MARKET
+        :param stop_price: Stop price for this position
+        :param side: SELL/BUY
+        :param working_type: StopPrice trigger price types: MARK_PRICE, CONTRACT_PRICE, INDEX_PRICE, default MARK_PRICE
         :param tp: Take profit for this position. You should set or use the default values for the following:
             type        TAKE_PROFIT_MARKET/TAKE_PROFIT
             quantity    Order quantity, contract quantity, currently only supports contract quantity in terms of currency, does not support inputting U$:quantity=U$/price
@@ -378,12 +427,17 @@ class BingxAPI(object):
         """
         path = "/openApi/swap/v2/trade/order"
         url = self.ROOT_URL + path
-        if position_side == "LONG":
-            desicion = "BUY"
-        elif position_side == "SHORT":
-            desicion = "SELL"
+
+        if side == "NULL":
+            if position_side == "LONG":
+                desicion = "BUY"
+            elif position_side == "SHORT":
+                desicion = "SELL"
+            else:
+                raise ValueError("position_side must be either 'SHORT' or 'LONG'")
         else:
-            raise ValueError("position_side must be either 'SHORT' or 'LONG'")
+            desicion = side
+
         if price == "BBO" and desicion == "BUY":
             price = self.get_current_optimal_price(pair)[0]
         if price == "BBO" and desicion == "SELL":
@@ -394,12 +448,15 @@ class BingxAPI(object):
         if sl != "NULL":
             sl = "{" + f'"type": "TAKE_PROFIT_MARKET", "quantity": {volume},"stopPrice": {sl},"price": {sl},"workingType":"MARK_PRICE"' + "}"
         parameters = self.__generate_params(clientOrderID=client_order_id, positionSide=position_side, quantity=volume,
-                                            price=price, side=desicion, symbol=pair, type="LIMIT", takeProfit=tp,
-                                            stopLoss=sl,
+                                            price=price, side=desicion, symbol=pair, type=trade_type, takeProfit=tp,
+                                            stopLoss=sl,stopPrice=stop_price,workingType=working_type,
                                             timestamp=self.get_timestamp(), recvWindow="10000")
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._post(url, body)
-        return response["data"]["order"]
+        if "data" in response and "order" in response["data"]:
+            return response["data"]["order"]
+        else:
+            return {"error":True,"response":response}
 
     def close_limit_order(self, pair, position_side, price, volume, client_order_id="NULL"):
         """
@@ -563,8 +620,10 @@ class BingxAPI(object):
         parameters = self.__generate_params(timestamp=self.get_timestamp(), recvWindow="10000")
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._post(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def cancel_order(self, pair, order_id="NULL", client_order_id="NULL"):
         """
@@ -575,7 +634,7 @@ class BingxAPI(object):
         parameters = self.__generate_params(orderId=order_id, symbol=pair, clientOrderID=client_order_id,
                                             timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
-        response = self._get(url, body)
+        response = self._delete(url, body)
         # data = response["data"]
         return response
 
@@ -585,8 +644,10 @@ class BingxAPI(object):
         parameters = self.__generate_params(symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._delete(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def cancel_batch_orders(self, pair, orderid_list="NULL", client_orderID_list="NULL"):
         """
@@ -599,8 +660,10 @@ class BingxAPI(object):
                                             symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._delete(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def query_pending_orders(self, pair="NULL"):
         path = "/openApi/swap/v2/trade/openOrders"
@@ -608,8 +671,10 @@ class BingxAPI(object):
         parameters = self.__generate_params(symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def query_order(self, pair, order_id="NULL", client_order_id="NULL"):
         """
@@ -625,8 +690,10 @@ class BingxAPI(object):
                                             timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def get_margin_mode(self, pair):
         path = "/openApi/swap/v2/trade/marginType"
@@ -634,8 +701,10 @@ class BingxAPI(object):
         parameters = self.__generate_params(symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]["marginType"]
-        return data
+        if "data" in response and "marginType" in response["data"]:
+            return response["data"]["marginType"]
+        else:
+            return {"error":True,"response":response}
 
     def set_margin_mode(self, pair, mode):
         """
@@ -661,8 +730,10 @@ class BingxAPI(object):
         parameters = self.__generate_params(symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def set_levarage(self, pair, position_side, amount):
         path = "/openApi/swap/v2/trade/leverage"
@@ -679,8 +750,10 @@ class BingxAPI(object):
                                             timestamp=self.get_timestamp(), recvWindow="10000")
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._post(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def query_force_orders(self, pair, auto_close_type="NULL", start_timestamp="NULL", end_timestamp="NULL",
                            limit="NULL"):
@@ -697,8 +770,10 @@ class BingxAPI(object):
                                             startTime=start_timestamp, symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def query_orders_history(self, pair, limit=500, order_id="NULL", start_timestamp="NULL", end_timestamp="NULL"):
         # The maximum query time range shall not exceed 7 days
@@ -710,8 +785,10 @@ class BingxAPI(object):
                                             startTime=start_timestamp, symbol=pair, timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._get(url, body)
-        data = response["data"]
-        return data
+        if "data" in response:
+            return response["data"]
+        else:
+            return {"error":True,"response":response}
 
     def query_transactional_order_history(self):
         # To be implemented
