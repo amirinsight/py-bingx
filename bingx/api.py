@@ -398,7 +398,7 @@ class BingxAPI(object):
 
     # Limit Orders:
 
-    def open_limit_order(self, pair, position_side, price, volume, sl="NULL", tp="NULL", client_order_id="NULL"):
+    def open_limit_order(self, pair, position_side, price, volume, sl="NULL", tp="NULL",trade_type="LIMIT",stop_price="NULL",side="NULL",working_type="MARK_PRICE", client_order_id="NULL"):
         """
         APIKEY must have 'perpetual futures trading' permission for this to work.
 
@@ -407,6 +407,10 @@ class BingxAPI(object):
         :param price: Entry price for this position. Can be set to "BBO" to use the best bid and offer.
         :param volume: Amount of trade for this position
         :param client_order_id: Your choosen order id (a unique number between 1 and 40)
+        :param trade_type: LIMIT, MARKET, TRIGGER_LIMIT, TRIGGER_MARKET
+        :param stop_price: Stop price for this position
+        :param side: SELL/BUY
+        :param working_type: StopPrice trigger price types: MARK_PRICE, CONTRACT_PRICE, INDEX_PRICE, default MARK_PRICE
         :param tp: Take profit for this position. You should set or use the default values for the following:
             type        TAKE_PROFIT_MARKET/TAKE_PROFIT
             quantity    Order quantity, contract quantity, currently only supports contract quantity in terms of currency, does not support inputting U$:quantity=U$/price
@@ -423,12 +427,17 @@ class BingxAPI(object):
         """
         path = "/openApi/swap/v2/trade/order"
         url = self.ROOT_URL + path
-        if position_side == "LONG":
-            desicion = "BUY"
-        elif position_side == "SHORT":
-            desicion = "SELL"
+
+        if side == "NULL":
+            if position_side == "LONG":
+                desicion = "BUY"
+            elif position_side == "SHORT":
+                desicion = "SELL"
+            else:
+                raise ValueError("position_side must be either 'SHORT' or 'LONG'")
         else:
-            raise ValueError("position_side must be either 'SHORT' or 'LONG'")
+            desicion = side
+
         if price == "BBO" and desicion == "BUY":
             price = self.get_current_optimal_price(pair)[0]
         if price == "BBO" and desicion == "SELL":
@@ -439,8 +448,8 @@ class BingxAPI(object):
         if sl != "NULL":
             sl = "{" + f'"type": "TAKE_PROFIT_MARKET", "quantity": {volume},"stopPrice": {sl},"price": {sl},"workingType":"MARK_PRICE"' + "}"
         parameters = self.__generate_params(clientOrderID=client_order_id, positionSide=position_side, quantity=volume,
-                                            price=price, side=desicion, symbol=pair, type="LIMIT", takeProfit=tp,
-                                            stopLoss=sl,
+                                            price=price, side=desicion, symbol=pair, type=trade_type, takeProfit=tp,
+                                            stopLoss=sl,stopPrice=stop_price,workingType=working_type,
                                             timestamp=self.get_timestamp(), recvWindow="10000")
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
         response = self._post(url, body)
@@ -625,7 +634,7 @@ class BingxAPI(object):
         parameters = self.__generate_params(orderId=order_id, symbol=pair, clientOrderID=client_order_id,
                                             timestamp=self.get_timestamp())
         body = self.__generate_params(params=parameters, signature=self.__sign_hex(parameters))
-        response = self._get(url, body)
+        response = self._delete(url, body)
         # data = response["data"]
         return response
 
